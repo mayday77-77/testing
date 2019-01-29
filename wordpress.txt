@@ -1,0 +1,51 @@
+extras..
+
+get salt
+https://api.wordpress.org/secret-key/1.1/salt/
+
+
+
+install php7.2
+
+yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+yum install yum-utils
+yum-config-manager --enable remi-php72 
+yum install php php-mcrypt php-cli php-gd php-curl php-mysql php-ldap php-zip php-fileinfo 
+
+
+apache:
+
+<IfModule php7_module>
+    AddType application/x-httpd-php .php
+    AddType application/x-httpd-php-source .phps
+    <IfModule dir_module>
+        DirectoryIndex index.html index.php
+    </IfModule>
+</IfModule>
+
+
+#### delete lines
+
+sed '/put your unique phrase here/d' wp-config-sample.php
+
+yum update -y nss curl libcurl
+git config --global user.email mayday77@gmail.com; git config --global user.name ed.cheng
+
+
+
+wp core install --path=/var/www/html/wordpress --url="http://localhost/wordpress" --title="Testing WP"--admin_user=tester --admin_password=tester123 --admin_email=mayday77@gmail.com
+
+
+http://localhost/wordpress/wp-content/themes/twentyseventeen/assets/images/header.jpg
+
+
+wp admin url:
+http://192.168.31.129/wordpress/wp-login.php
+
+wc -l $HOME/web_status/errors_detected |awk '{print $1}' > $HOME/web_status/PLC.tmp
+tail -Fn0 $LOGFILE |
+while read line
+do
+echo $line |awk '($9>=300 && $9!=304 || $7 ~ /xmlrpc.php/ ){print}' >> $HOME/web_status/errors_detected
+done
+
